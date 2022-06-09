@@ -79,14 +79,16 @@ export const getCompleteData = async () => {
 
 export const getFilteredData = async currentCategory => {
     let back = [];
-    let data = await getCompleteData()
-    data.forEach(item => {
-        if (currentCategory === item.kategorie) {
-            back.push(item);
-        }
+    await getCompleteData().then(arrayback => {
+        coonsole.log(arrayback)
+        arrayback.forEach(item => {
+            if (currentCategory === item.kategorie) {
+                back.push(item);
+            }
+        });
+        // ToDO: Warum wird back nicht zurückgegeben?
+        return back;
     });
-        console.log("BAck", back)
-    return back;
 };
 
 export const clearAsyncStorage = async () => {

@@ -16,7 +16,7 @@ const DetailListScreen = ({route, titel}) => {
     const navigation = useNavigation();
     useEffect(() => {
         console.log("GetFilteredData")
-        getFilteredData().then(arrayback => {
+        getCompleteData().then(arrayback => {
             if (arrayback !== undefined) {
                 setData(arrayback);
             }
