@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         shadowColor: '#000',
         elevation: 5,
-        height: 148,
+        heigth: width,
     },
     titel: {
         fontSize: 25,

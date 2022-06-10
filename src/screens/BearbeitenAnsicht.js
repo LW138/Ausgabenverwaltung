@@ -22,7 +22,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
     let titel = route.params.titel;
     let typ = route.params.typ;
     let item_date = item.datum.split('.')
-    const [date, setDate] = React.useState(new Date(item_date[2], item_date[1]-1, item_date[0]));
+    const [date, setDate] = React.useState(new Date(item_date));
     const [message, setMessage] = React.useState('');
     tempAusgabe = item;
     tempAusgabe.datum = date.toLocaleDateString();
@@ -36,7 +36,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
 
     const showDatepicker = () => {
         DateTimePickerAndroid.open({
-            value: date.toLocalDateString(),
+            value: date.toLocaleDateString(),
             onChange,
             mode: 'date',
         });
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     },
     inputField: {
         color: 'black',
-        fontSize: 16,
+        fontSize: 20,
         textAlign: 'center',
         borderWidth: 1,
         borderRadius: 5,
@@ -199,8 +199,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'space-between',
         height: 100,
-
-
     },
     notSelectedCategory: {
         borderWidth: 1,

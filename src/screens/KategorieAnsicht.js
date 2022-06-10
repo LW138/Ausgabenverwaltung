@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     },
     neuerEintragButton: {
         backgroundColor: '#efebe6',
-        width: 60,
-        borderRadius: 100,
+        width: 70,
+        borderRadius: 5,
         justifyContent: 'center',
         alignSelf: 'center',
         shadowColor: '#000',
-        height: 60,
+        height: 70,
         elevation: 5,
     },
 });

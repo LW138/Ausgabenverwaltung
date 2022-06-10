@@ -6,6 +6,7 @@ import {
     Text,
     View,
     Dimensions,
+    Image
 } from 'react-native';
 
 import {useNavigation,  useIsFocused} from '@react-navigation/native';
@@ -93,6 +94,7 @@ const DetailListScreen = ({route}) => {
                                     <Text style={styles.date}>{item.datum}</Text>
                                     <Text style={styles.titel}>{item.titel}</Text>
                                     <Text style={styles.sum}>{item.betrag}€</Text>
+                                    <Image style={styles.arrow} source={require('../../res/img/right.png')}></Image>
                                 </View>
                                 {item.notizen != null ? (
                                     <Text style={styles.notice}>{item.notizen}</Text>
@@ -147,6 +149,13 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginTop: 10,
         marginBottom: 10,
+    },
+    arrow:{
+        flex: 0.1,
+        width: 20,
+        height: 20,
+        alignContent: 'center',
+        margin: 5
     },
 });
 
