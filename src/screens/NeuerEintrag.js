@@ -6,6 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
+    FlatList
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
@@ -17,6 +18,7 @@ let tempAusgabe = new ausgaben();
 const NeuerEintrag = ({route, navigation}) => {
     const [date, setDate] = React.useState(new Date());
     const [message, setMessage] = React.useState('');
+    tempAusgabe.datum = date.toLocaleDateString();
 
     const onChange = (event, date) => {
         let currentDate = date;
@@ -54,7 +56,7 @@ const NeuerEintrag = ({route, navigation}) => {
                     }}
                 />
                 <TextInput
-                    placeholder={'Betrag einfügen'}
+                    placeholder={'Betrag in € eingeben'}
                     placeholderTextColor={'grey'}
                     keyboardType={'numeric'}
                     style={styles.inputField}
@@ -78,6 +80,7 @@ const NeuerEintrag = ({route, navigation}) => {
                 onPress={() => {
                     setTime(tempAusgabe);
                     storeData(tempAusgabe);
+                    tempAusgabe = new ausgaben()
                     navigation.navigate(route.params.previousScreen);
                 }}
             />
@@ -85,27 +88,42 @@ const NeuerEintrag = ({route, navigation}) => {
     );
 };
 
-const KategoryAuswahl = () => {
-    const [kategoryIndex, setkategoryIndex] = React.useState(0);
+const KategoryAuswahl = ({item}) => {
+    let index = 0;
+    if (item.kategorie != '' && item.kategorie != null){
+        index = (kategorien.filter(i => i.titel == item.kategorie)[0].id);
+    }
+    const [kategoryIndex, setkategoryIndex] = React.useState(index);
+    tempAusgabe.kategorie = kategorien[index].titel;
     return (
         <View style={styles.categorySelectContainer}>
-            {kategorien.map((item, index) => (
-                <TouchableOpacity
-                    activeOpacity={1}
-                    key={index}
-                    onPress={() => {
-                        setkategoryIndex(index);
-                        tempAusgabe.kategorie = kategorien[index].titel;
-                    }}>
-                    <Text
-                        style={[
-                            styles.notSelectedCategory,
-                            kategoryIndex === index && styles.selectedCategory,
-                        ]}>
-                        {item.titel}
-                    </Text>
-                </TouchableOpacity>
-            ))}
+            <FlatList
+                numColumns={3}
+                data={kategorien}
+                renderItem={({item, index}) => (
+                    <View>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {
+                                setkategoryIndex(index);
+                                tempAusgabe.kategorie = kategorien[index].titel;
+                            }}>
+                            <Text
+                               style={[
+                                    styles.notSelectedCategory,
+                                    kategoryIndex === index && styles.selectedCategory,
+                                ]}>
+                                {item.titel}
+                            </Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+
+
+
+                    )}
+            />
         </View>
     );
 };
@@ -140,11 +158,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#efebe6',
     },
     categorySelectContainer: {
-        flexDirection: 'row',
         marginLeft: 5,
         marginTop: 10,
+        marginRight: 5,
         marginBottom: 10,
         justifyContent: 'space-between',
+        height: 100,
+
+
     },
     notSelectedCategory: {
         borderWidth: 1,
@@ -152,12 +173,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 5,
         borderRadius: 10,
-        width: 90,
+        width: (WIDTH - 37)/ 3 ,
         margin: 5,
         height: 40,
         textAlign: 'center',
         color: 'black',
         backgroundColor: '#efebe6',
+
     },
     selectedCategory: {
         backgroundColor: '#595959',

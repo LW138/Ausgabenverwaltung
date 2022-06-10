@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     StyleSheet,
@@ -6,29 +6,77 @@ import {
     TouchableOpacity,
     Text,
 } from 'react-native';
+import {useIsFocused, useFocusEffect} from '@react-navigation/native';
 import CardList from '../components/CardList';
 import kategorien from '../data/Kategorien';
+import {getCompleteData} from '../backend/DataProcessing';
 
 
 let array = [];
 const KategorienAnsicht = ({route, navigation}) => {
-    const [counter, setCounter] = React.useState(0);
+    const [counter, setCounter] = useState(0)
+    const isFocused = useIsFocused();
 
-    sortbyKategorie('Freizeit');
-    sortByTime('Gesamt');
-    countKategorieEntry();
+    useEffect(() => {
+        countEntriesPerCategory()
+    }, [isFocused]);
 
+    const countEntriesPerCategory = () => {
+        kategorien[0].anzahl = 0
+        kategorien[1].anzahl = 0
+        kategorien[2].anzahl = 0
+        kategorien[3].anzahl = 0
+        kategorien[4].anzahl = 0
+        kategorien[5].anzahl = 0
+        kategorien[0].betrag = 0
+        kategorien[1].betrag = 0
+        kategorien[2].betrag = 0
+        kategorien[3].betrag = 0
+        kategorien[4].betrag = 0
+        kategorien[5].betrag = 0
+        getCompleteData().then(arrayback => {
+            arrayback.forEach(item => {
+                if (item.kategorie == 'Sparen') {
+                    kategorien[0].anzahl = kategorien[0].anzahl + 1;
+                    kategorien[0].betrag =  kategorien[0].betrag + parseInt(item.betrag);
+                }
+                if (item.kategorie == 'Haushalt') {
+                    kategorien[1].anzahl = kategorien[1].anzahl + 1;
+                    kategorien[1].betrag =  kategorien[1].betrag + parseInt(item.betrag);
+                }
+                if (item.kategorie == 'Freizeit') {
+                    kategorien[2].anzahl =  kategorien[2].anzahl + 1;
+                    kategorien[2].betrag =  kategorien[2].betrag + parseInt(item.betrag);
+                }
+                if (item.kategorie == 'Reisen') {
+                    kategorien[3].anzahl =  kategorien[3].anzahl + 1;
+                    kategorien[3].betrag =  kategorien[3].betrag + parseInt(item.betrag);
+                }
+                if (item.kategorie == 'Lebensmittel') {
+                    kategorien[4].anzahl =  kategorien[4].anzahl + 1;
+                    kategorien[4].betrag =  kategorien[4].betrag + parseInt(item.betrag);
+                }
+                if (item.kategorie == 'Sonstiges'){
+                    kategorien[5].anzahl = kategorien[5].anzahl + 1
+                    kategorien[5].betrag = kategorien[5].betrag + parseInt(item.betrag)
+                }
+            })
+            setCounter(counter+1);
+        })
+
+    }
     return (
         <View style={styles.container}>
-            <CardList screen={'Details'} data={kategorien} />
+            <CardList detailScreen={'Details'} data={kategorien} typ={"Kategorie"} />
             <TouchableOpacity
                 activeOpacity={0.9}
                 style={styles.neuerEintragButton}
-                onPress={() =>
+                onPress={() => {
+                    console.log(isFocused)
                     navigation.navigate('Neuer Eintrag', {
                         previousScreen: route.name,
                     })
-                }>
+                }}>
                 <Text style={{fontSize: 45, textAlign: 'center', color: 'black'}}>
                     +
                 </Text>
@@ -39,7 +87,7 @@ const KategorienAnsicht = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: Dimensions.get('window').height - 50,
+        height: 500
     },
     neuerEintragButton: {
         backgroundColor: '#efebe6',
@@ -50,80 +98,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         height: 60,
         elevation: 5,
-        zIndex: -999,
     },
 });
 
 export default KategorienAnsicht;
-
-function countKategorieEntry() {
-    let hausCounter = 0;
-    let reisenCounter = 0;
-    let sparenCounter = 0;
-    let freizeitCounter = 0;
-
-    for (let j = 0; j < array.length; j++) {
-        if (array[j].kategorie == 'Haushalt') {
-            hausCounter++;
-        }
-        if (array[j].kategorie == 'Sparen') {
-            sparenCounter++;
-        }
-        if (array[j].kategorie == 'Reisen') {
-            reisenCounter++;
-        }
-        if (array[j].kategorie == 'Freizeit') {
-            freizeitCounter++;
-        }
-    }
-
-    kategorien[0].anzahl = sparenCounter;
-    kategorien[1].anzahl = hausCounter;
-    kategorien[2].anzahl = freizeitCounter;
-    kategorien[3].anzahl = reisenCounter;
-}
-
-function sortbyKategorie(titel) {
-    let showElements = [];
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].kategorie == titel) {
-            showElements.push(array[i]);
-        }
-    }
-    return showElements;
-}
-
-function sortByTime(titel) {
-    let showElements = [];
-    let current_date = new Date();
-    if (titel === 'Gesamt') {
-        showElements = array;
-    } else {
-        for (let i = 0; i < array.length; i++) {
-            let item_date = new Date(array[i].datum);
-            let compare1 = new Date(
-                current_date.getFullYear(),
-                current_date.getMonth(),
-                current_date.getDate(),
-            );
-            let compare2 = new Date(
-                item_date.getFullYear(),
-                item_date.getMonth(),
-                item_date.getDate(),
-            );
-
-            var millisecondsPerDay = 1000 * 60 * 60 * 24;
-            var millisBetween = compare2.getTime() - compare1.getTime();
-            var days = millisBetween / millisecondsPerDay;
-            days = Math.floor(days);
-            if (titel == 'Woche' && days > -8 && days <= 0) {
-                showElements.push(array[i]);
-            } else if (titel == 'Monat' && days > -32 && days < -7) {
-                showElements.push(array[i]);
-            } else if (titel == 'Jahr' && days > -366) {
-                showElements.push(array[i]);
-            }
-        }
-    }
-    return showElements;
-}

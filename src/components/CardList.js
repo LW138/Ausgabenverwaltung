@@ -8,19 +8,21 @@ import {
     Dimensions,
     ScrollView,
 } from 'react-native';
-import React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import {useNavigation,} from '@react-navigation/native';
 
-const CardList = ({route, screen, data}) => {
+const CardList = ({route, detailScreen, data, typ}) => {
     const navigation = useNavigation();
+
+
     return (
         <View style={styles.cardContainer}>
-            <ScrollView style={{height: 492}}>
+
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
                     columnWrapperStyle={{justifyContent: 'space-between'}}
-                    contentContainerStyle={styles.contentContainerStyle}
+
                     numColumns={2}
                     data={data}
                     renderItem={({item}) => (
@@ -28,8 +30,9 @@ const CardList = ({route, screen, data}) => {
                             <TouchableOpacity
                                 activeOpacity={0.9}
                                 onPress={() => {
-                                    navigation.navigate(screen, {
+                                    navigation.navigate(detailScreen, {
                                         titel: item.titel,
+                                        typ: typ
                                     });
                                 }}>
                                 <View style={styles.card}>
@@ -52,14 +55,14 @@ const CardList = ({route, screen, data}) => {
                                     </View>
                                     <View>
                                         <Text style={styles.titel}>{item.titel}</Text>
-                                        <Text style={styles.summe}>{item.summe}</Text>
+                                        <Text style={styles.summe}>{item.betrag + "€"}</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
                         </View>
                     )}
                 />
-            </ScrollView>
+
         </View>
     );
 };
@@ -70,21 +73,25 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 20,
         marginRight: 20,
+        heigth: 510,
+        marginBottom: 10,
+
     },
     card: {
         backgroundColor: '#efebe6',
         width,
         borderRadius: 15,
         marginTop: 10,
-        marginBottom: 5,
-        padding: 10,
+        paddingTop: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
         shadowColor: '#000',
         elevation: 5,
-        height: 150,
+        height: 148,
     },
     titel: {
         fontSize: 25,
-        paddingTop: 10,
+        paddingTop: 5,
         color: 'black',
     },
     summe: {

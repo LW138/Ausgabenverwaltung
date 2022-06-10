@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StackCategoryNav, StackTimespanNav} from './StackNavigator';
+import {useNavigation,} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
+
     return (
         <Tab.Navigator
             screenOptions={({route}) => ({
+
                 tabBarShowLabel: false,
                 headerShown: false,
                 tabBarInactiveBackgroundColor: '#efebe6',

@@ -7,9 +7,9 @@ export default class ausgaben {
         this.titel = null;
         this.betrag = null;
         this.notizen = null;
-        this.kategorie = null;
+        this.kategorie = '';
         this.datum = null;
-        this.dateTime = null;
+        this.dateTime = '';
     }
 }
 
@@ -23,19 +23,13 @@ export const setTime = tempAusgabe => {
 };
 
 export const storeData = async tempAusgabe => {
+    if(tempAusgabe.betrag == null){
+        tempAusgabe.betrag = '0';
+    }
+    if(tempAusgabe.titel == null){
+        tempAusgabe.titel = "Ausgabe"
+    }
     try {
-        for (let i = 0; i < kategorien.length; i++) {
-            console.log('kategorien[i].titel', kategorien[i].titel);
-            console.log('tempAusgabe.kategorie', tempAusgabe.kategorie);
-            if (kategorien[i].titel === tempAusgabe.kategorie) {
-                console.log('kategorien[i].anzahl', kategorien[i].anzahl);
-                kategorien[i].anzahl = kategorien[i].anzahl + 1;
-                kategorien[i].summe = kategorien[i].summe + tempAusgabe.betrag;
-                console.log('kategorien[i].titel erhöht', kategorien[i].titel);
-                console.log('kategorien[i].anzahl erhöht', kategorien[i].anzahl);
-            }
-        }
-
         await AsyncStorage.setItem(
             tempAusgabe.dateTime.toString(),
             JSON.stringify(tempAusgabe),
@@ -49,7 +43,6 @@ export const storeData = async tempAusgabe => {
 //TODO Brauchen wir das?
 export const mergeData = async tempAusgabe => {
     try {
-        console.log('tempAusgabe', tempAusgabe);
         await AsyncStorage.mergeItem(
             tempAusgabe.dateTime.toString(),
             JSON.stringify(tempAusgabe),
@@ -98,3 +91,28 @@ export const clearAsyncStorage = async () => {
 export const clearSingleValue = async tempAusgabe => {
     await AsyncStorage.removeItem(tempAusgabe.dateTime.toString());
 };
+
+export const countKategorieEintraege = () => {
+    let hausCounter = 0;
+    let reisenCounter = 0;
+    let sparenCounter = 0;
+    let freizeitCounter = 0;
+    getCompleteData().then(array => {
+        for (let j = 0; j < array.length; j++) {
+            if (array[j].kategorie == 'Haushalt') {
+                hausCounter++;
+            }
+            if (array[j].kategorie == 'Sparen') {
+                sparenCounter++;
+            }
+            if (array[j].kategorie == 'Reisen') {
+                reisenCounter++;
+            }
+            if (array[j].kategorie == 'Freizeit') {
+                freizeitCounter++;
+            }
+        }
+    });
+
+
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     View,
     StyleSheet,
@@ -6,27 +6,37 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
+    FlatList
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
-import {clearSingleValue, storeData} from '../backend/DataProcessing';
-import {useNavigation} from '@react-navigation/native';
+import ausgaben, {mergeData, clearSingleValue, storeData} from '../backend/DataProcessing';
 import kategorien from '../data/Kategorien';
 
-const BearbeitenAnsicht = ({route}) => {
-    let item = route.params.item;
-    const [date, setDate] = React.useState(new Date(item.datum));
 
-    const navigation = useNavigation();
+let tempAusgabe = new ausgaben();
+
+const BearbeitenAnsicht = ({route, navigation}) => {
+
+    let item = route.params.item;
+    let titel = route.params.titel;
+    let typ = route.params.typ;
+    let item_date = item.datum.split('.')
+    const [date, setDate] = React.useState(new Date(item_date[2], item_date[1]-1, item_date[0]));
+    const [message, setMessage] = React.useState('');
+    tempAusgabe = item;
+    tempAusgabe.datum = date.toLocaleDateString();
+
 
     const onChange = (event, date) => {
         let currentDate = date;
         setDate(currentDate);
+        tempAusgabe.datum = date.toLocaleDateString();
     };
 
     const showDatepicker = () => {
         DateTimePickerAndroid.open({
-            value: date,
+            value: date.toLocalDateString(),
             onChange,
             mode: 'date',
         });
@@ -40,16 +50,31 @@ const BearbeitenAnsicht = ({route}) => {
                         defaultValue={item.titel}
                         style={styles.inputField}
                         editable={true}
+                        onChangeText={message => {
+                            setMessage(message);
+                            tempAusgabe.titel = message;
+                        }}
                     />
-                    <TextInput defaultValue={item.notizen} style={styles.inputField} />
                     <TextInput
-                        defaultValue={item.betrag.toString()}
+                        defaultValue={item.notizen}
+                        style={styles.inputField}
+                        onChangeText={message => {
+                            setMessage(message);
+                            tempAusgabe.notizen = message;
+                        }}
+                    />
+                    <TextInput
+                        defaultValue={item.betrag}
                         keyboardType={'numeric'}
                         style={styles.inputField}
+                        onChangeText={message => {
+                            setMessage(message);
+                            tempAusgabe.betrag = message;
+                        }}
                     />
                     <TouchableOpacity onPress={showDatepicker} title="Datum auswählen">
                         <TextInput style={styles.date} editable={false}>
-                            {date.toLocaleDateString()}{' '}
+                            {date.toLocaleDateString()}
                         </TextInput>
                     </TouchableOpacity>
                 </View>
@@ -59,83 +84,84 @@ const BearbeitenAnsicht = ({route}) => {
             <Button
                 activeOpacity={1}
                 title={'Speichern'}
-                buttonStyle={{
-                    backgroundColor: '#1ed760',
-                    marginTop: 20,
-                    marginBottom: 5,
-                    marginLeft: 15,
-                    marginRight: 15,
-                }}
+                buttonStyle={styles.buttonSave}
                 titleStyle={{fontSize: 22}}
-                onPress={() => safeState(item, navigation)}
+                onPress={() => {
+                    mergeData(tempAusgabe);
+                    navigation.navigate(route.params.previousScreen, {typ: typ, titel: titel});
+                }}
             />
 
             <Button
                 activeOpacity={1}
                 title={'Löschen'}
-                buttonStyle={{
-                    backgroundColor: '#ff654e',
-                    marginTop: 5,
-                    marginBottom: 5,
-                    marginLeft: 15,
-                    marginRight: 15,
-                }}
+                buttonStyle={styles.buttonDelete}
                 titleStyle={{fontSize: 22}}
-                onPress={() => deleteEntry(item, navigation)}
+                onPress={() => {
+                    clearSingleValue(tempAusgabe);
+                    navigation.navigate(route.params.previousScreen, {typ: typ, titel: titel});
+                }}
             />
         </View>
     );
 };
 
-const KategoryAuswahl = ({item}) => {
-    console.log('Item', item);
-    let startIndex = kategorien.filter(i => i.titel == item.kategorie)[0].id;
-    const [kategoryIndex, setkategoryIndex] = React.useState(startIndex);
+export const KategoryAuswahl = ({item}) => {
+    let index = 0;
+    if (item.kategorie != '' && item.kategorie != null){
+        index = (kategorien.filter(i => i.titel == item.kategorie)[0].id);
+    }
+    const [kategoryIndex, setkategoryIndex] = React.useState(index);
+
     return (
         <View style={styles.categorySelectContainer}>
-            {kategorien.map((item, index) => (
-                <TouchableOpacity
-                    activeOpacity={1}
-                    key={index}
-                    onPress={() => {
-                        setkategoryIndex(index);
-                        item.kategorie = kategorien[index].titel;
-                    }}>
-                    <Text
-                        style={[
-                            styles.notSelectedCategory,
-                            kategoryIndex === index && styles.selectedCategory,
-                        ]}>
-                        {item.titel}
-                    </Text>
-                </TouchableOpacity>
-            ))}
+            <FlatList
+                numColumns={3}
+                data={kategorien}
+                renderItem={({item, index}) => (
+                    <View>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {
+                                setkategoryIndex(index);
+                                tempAusgabe.kategorie = kategorien[index].titel;
+                            }}>
+                            <Text
+                                style={[
+                                    styles.notSelectedCategory,
+                                    kategoryIndex === index && styles.selectedCategory,
+                                ]}>
+                                {item.titel}
+                            </Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+
+
+
+                )}
+            />
         </View>
     );
 };
-function safeState(item, navigation) {
-    navigation.goBack();
-    console.log('Update Item');
-    console.log(item);
-    storeData(item);
-}
-
-function deleteEntry(item, navigation) {
-    console.log(navigation);
-    console.log('LÖSCHEN', item.dateTime);
-    navigation.goBack();
-    clearSingleValue(item.dateTime);
-}
 
 const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-    headline: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: 'black',
-        backgroundColor: '#bfbbb7',
-        padding: 10,
+    buttonSave:{
+        backgroundColor: '#1ed760',
+        marginTop: 20,
+        marginBottom: 5,
+        marginLeft: 15,
+        marginRight: 15,
+    },
+    buttonDelete:{
+        backgroundColor: '#ff654e',
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 15,
+        marginRight: 15,
     },
     contentContainer: {
         width: WIDTH / 2,
@@ -167,11 +193,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#efebe6',
     },
     categorySelectContainer: {
-        flexDirection: 'row',
         marginLeft: 5,
         marginTop: 10,
+        marginRight: 5,
         marginBottom: 10,
         justifyContent: 'space-between',
+        height: 100,
+
+
     },
     notSelectedCategory: {
         borderWidth: 1,
@@ -179,7 +208,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 5,
         borderRadius: 10,
-        width: 90,
+        width: (WIDTH - 37)/ 3 ,
         margin: 5,
         height: 40,
         textAlign: 'center',
