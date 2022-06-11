@@ -68,15 +68,22 @@ const KategorienAnsicht = ({route, navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <CardList detailScreen={'Details'} data={kategorien} typ={"Kategorie"} />
-            <NeuerEintragButton route={route.name}></NeuerEintragButton>
+                <CardList detailScreen={'Details'} data={kategorien} typ={"Kategorie"} />
+            <View style={{position: 'absolute', left: WIDTH/2-35, bottom: 5}}>
+                <NeuerEintragButton route={route.name}></NeuerEintragButton>
+            </View>
         </View>
+
     );
 };
 
+const HEIGTH = Dimensions.get('window').heigth;
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     container: {
-        height: 500
+        flex: 1,
+        backgroundColor: '#bebebe',
+        flexDirection: 'column',
     },
 });
 

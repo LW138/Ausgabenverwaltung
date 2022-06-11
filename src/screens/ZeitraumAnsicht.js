@@ -61,17 +61,25 @@ const ZeitraumAnsicht = ({route, navigation}) => {
             });
     }
     return (
-        <View style={styles.style}>
+        <View style={styles.container}>
                 <CardList detailScreen={'Details'} data={zeitraeume} typ={"Zeitraum"} />
+            <View style={{position: 'absolute', left: WIDTH/2-35, bottom: 5}}>
                 <NeuerEintragButton route={route.name}></NeuerEintragButton>
+            </View>
+
         </View>
     );
 };
 
+const HEIGTH = Dimensions.get('window').heigth;
+const WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-    style: {
-        height: Dimensions.get('window').height - 50,
+    container: {
+        flex: 1,
+        backgroundColor: '#bebebe',
+        flexDirection: 'column',
     },
 });
+
 
 export default ZeitraumAnsicht;

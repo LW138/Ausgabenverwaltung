@@ -9,5 +9,5 @@ to setup the project install following packages:
 5. npm install @react-native-community/datetimepicker
 6. npm install react-native-gesture-handler
 7. npm install react-native-screens
-8. npm install react-native-safe-are-context
+8. npm install react-native-safe-area-context
 9. npm install react-native-elements --force (without force "error because of react-native-safe-are-context"

@@ -14,9 +14,8 @@ const TabNavigator = () => {
                 tabBarShowLabel: false,
                 headerShown: false,
                 tabBarInactiveBackgroundColor: '#efebe6',
-                tabBarActiveBackgroundColor: '#C0C0C0',
-                tabBarInactiveTintColor: 'black',
-                tabBarActiveTintColor: 'white',
+                tabBarActiveBackgroundColor: '#595959',
+
             })}>
             <Tab.Screen
                 name="KategorienStack"
@@ -24,16 +23,19 @@ const TabNavigator = () => {
                 options={{
                     tabBarIcon: ({focused}) => (
                         <Image
-                            source={require('../../res/img/category.png')}
+                            source={require('../../res/img/img_1.png')}
                             resizeMode="contain"
                             style={{
                                 width: 40,
                                 height: 40,
+
                             }}
+                            tintColor={focused ? 'white' : 'black'}
                         />
                     ),
                 }}
             />
+
             <Tab.Screen
                 name="ZeitraumStack"
                 component={StackTimespanNav}
@@ -46,6 +48,7 @@ const TabNavigator = () => {
                                 width: 40,
                                 height: 40,
                             }}
+                            tintColor={focused ? 'white' : 'black'}
                         />
                     ),
                 }}

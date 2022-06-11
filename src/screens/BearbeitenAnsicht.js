@@ -13,7 +13,6 @@ import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import ausgaben, {mergeData, clearSingleValue, storeData} from '../backend/DataProcessing';
 import kategorien from '../data/Kategorien';
 
-
 let tempAusgabe = new ausgaben();
 
 const BearbeitenAnsicht = ({route, navigation}) => {
@@ -22,7 +21,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
     let titel = route.params.titel;
     let typ = route.params.typ;
     let item_date = item.datum.split('.')
-    const [date, setDate] = React.useState(new Date(item_date));
+    const [date, setDate] = React.useState(new Date(item_date[2], item_date[1]-1, item_date[0]));
     const [message, setMessage] = React.useState('');
     tempAusgabe = item;
     tempAusgabe.datum = date.toLocaleDateString();
@@ -36,7 +35,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
 
     const showDatepicker = () => {
         DateTimePickerAndroid.open({
-            value: date.toLocaleDateString(),
+            value: date,
             onChange,
             mode: 'date',
         });

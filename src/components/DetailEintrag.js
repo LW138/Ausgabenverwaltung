@@ -2,12 +2,12 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-const DetailEintrag = ({item, typ, titel, route}) => {
+const DetailEintrag = ({keyVal, item, typ, titel, route}) => {
     const navigation = useNavigation();
     return(
         <TouchableOpacity
             activeOpacity={0.9}
-            key={item.dateTime}
+            key={keyVal}
             onPress={() =>
                 navigation.navigate('Bearbeiten', {
                     item: item,
