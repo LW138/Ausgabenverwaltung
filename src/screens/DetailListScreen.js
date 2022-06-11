@@ -94,8 +94,6 @@ const DetailListScreen = ({route}) => {
     return (
         <ScrollView>
             {data.map(item => {
-                {
-                }
                 return (
                     <TouchableOpacity
                         activeOpacity={0.9}
