@@ -53,7 +53,7 @@ const ZeitraumAnsicht = ({route, navigation}) => {
                     zeitraeume[1].anzahl = zeitraeume[1].anzahl + 1;
                     zeitraeume[1].betrag = zeitraeume[1].betrag + parseInt(item.betrag);
                 }
-                if (days >= -365) {
+                if (days >= -365 && days <=0) {
                     zeitraeume[2].anzahl = zeitraeume[2].anzahl + 1;
                     zeitraeume[2].betrag = zeitraeume[2].betrag + parseInt(item.betrag);
                 }
