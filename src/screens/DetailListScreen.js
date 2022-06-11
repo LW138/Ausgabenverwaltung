@@ -24,6 +24,26 @@ const DetailListScreen = ({route}) => {
     let back = [];
     let typ = route.params.typ
     let titel = route.params.titel
+    
+    const sortData = data => {
+        if(data.length > 1){
+            for (let i = 0; i < data.length - 1; i++) {
+                for (let j = 0; j < data.length - 1; j++) {
+                    let item_date1 = data[j].datum.split(".")
+                    let compare1 = new Date(item_date1[2], item_date1[1]-1, item_date1[0])
+                    let item_date2 = data[j + 1].datum.split(".")
+                    let compare2 = new Date(item_date2[2], item_date2[1]-1, item_date2[0])
+                    let millisBetween = compare2.getTime() - compare1.getTime();
+                    if (millisBetween < 0) {
+                        let temp = data[j];
+                        data[j] = data[j + 1];
+                        data[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        return data;
+    }
 
     const loadData = () => {
         getCompleteData().then(arrayback => {
@@ -63,7 +83,7 @@ const DetailListScreen = ({route}) => {
                 }
             }
             if (arrayback !== undefined) {
-                setData(back);
+                setData(sortData(back));
             } else {
                 setData([]);
             }
