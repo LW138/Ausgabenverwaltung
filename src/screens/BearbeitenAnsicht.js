@@ -20,7 +20,6 @@ const BearbeitenAnsicht = ({route, navigation}) => {
     let item = route.params.item;
     let titel = route.params.titel;
     let typ = route.params.typ;
-    console.log("Datum" , item.datum)
     const [date, setDate] = React.useState(new Date(item.datum));
     const [message, setMessage] = React.useState('');
     tempAusgabe = item;
@@ -31,7 +30,6 @@ const BearbeitenAnsicht = ({route, navigation}) => {
         let currentDate = date;
         setDate(currentDate);
         tempAusgabe.datum = date.toLocaleDateString();
-        console.log("Speichern", tempAusgabe.datum)
     };
 
     const showDatepicker = () => {

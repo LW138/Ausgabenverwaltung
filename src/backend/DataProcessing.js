@@ -63,22 +63,7 @@ export const getCompleteData = async () => {
             values.push(JSON.parse(store[i][1]));
         });
     }).then(() => {
-        console.log('reload Data');
         return values;
-    });
-};
-
-export const getFilteredData = async currentCategory => {
-    let back = [];
-    await getCompleteData().then(arrayback => {
-        coonsole.log(arrayback)
-        arrayback.forEach(item => {
-            if (currentCategory === item.kategorie) {
-                back.push(item);
-            }
-        });
-        // ToDO: Warum wird back nicht zurückgegeben?
-        return back;
     });
 };
 

@@ -32,6 +32,7 @@ const ZeitraumAnsicht = ({route, navigation}) => {
         zeitraeume[4].betrag = 0
         getCompleteData().then(arrayback => {
             arrayback.forEach(item => {
+                //inspirated from stackoverflow in the next 12 lines
                 let current_date = new Date();
                 let compare1 = new Date(
                     current_date.getFullYear(),

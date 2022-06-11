@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import {useNavigation,  useIsFocused} from '@react-navigation/native';
-import {getCompleteData, getFilteredData} from '../backend/DataProcessing';
+import {getCompleteData} from '../backend/DataProcessing';
 import DetailEintrag from '../components/DetailEintrag';
 const DetailListScreen = ({route}) => {
     const [data, setData] = React.useState([]);
@@ -29,14 +29,8 @@ const DetailListScreen = ({route}) => {
         if(data.length > 1){
             for (let i = 0; i < data.length - 1; i++) {
                 for (let j = 0; j < data.length - 1; j++) {
-                   // let item_date1 = data[j].datum.split(".")
-                   // let compare1 = new Date(item_date1[2], item_date1[1]-1, item_date1[0])
                     let compare1 = new Date(data[j].datum)
-                    //let item_date2 = data[j + 1].datum.split(".")
-                    //let compare2 = new Date(item_date2[2], item_date2[1]-1, item_date2[0])
                     let compare2 = new Date(data[j+1].datum)
-                    console.log("Compare 1", compare1)
-                    console.log("Compare 2", compare2)
                     let millisBetween = compare2.getTime() - compare1.getTime();
                     if (millisBetween >= 0) {
                         let temp = data[j];
@@ -101,7 +95,7 @@ const DetailListScreen = ({route}) => {
         <ScrollView>
             {data.map(item => {
                 return (
-                   <DetailEintrag key={item.dateTime} item={item} typ={typ} titel={titel} route={route.name}></DetailEintrag>
+                   <DetailEintrag key={item.dateTime} id={item.dateTime} item={item} typ={typ} titel={titel} route={route.name}></DetailEintrag>
                 );
             })}
         </ScrollView>
