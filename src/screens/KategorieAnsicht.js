@@ -10,6 +10,7 @@ import {useIsFocused, useFocusEffect} from '@react-navigation/native';
 import CardList from '../components/CardList';
 import kategorien from '../data/Kategorien';
 import {getCompleteData} from '../backend/DataProcessing';
+import NeuerEintragButton from '../components/NeuerEintragButton';
 
 
 let array = [];
@@ -68,19 +69,7 @@ const KategorienAnsicht = ({route, navigation}) => {
     return (
         <View style={styles.container}>
             <CardList detailScreen={'Details'} data={kategorien} typ={"Kategorie"} />
-            <TouchableOpacity
-                activeOpacity={0.9}
-                style={styles.neuerEintragButton}
-                onPress={() => {
-                    console.log(isFocused)
-                    navigation.navigate('Neuer Eintrag', {
-                        previousScreen: route.name,
-                    })
-                }}>
-                <Text style={{fontSize: 45, textAlign: 'center', color: 'black'}}>
-                    +
-                </Text>
-            </TouchableOpacity>
+            <NeuerEintragButton route={route.name}></NeuerEintragButton>
         </View>
     );
 };
@@ -88,16 +77,6 @@ const KategorienAnsicht = ({route, navigation}) => {
 const styles = StyleSheet.create({
     container: {
         height: 500
-    },
-    neuerEintragButton: {
-        backgroundColor: '#efebe6',
-        width: 70,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        shadowColor: '#000',
-        height: 70,
-        elevation: 5,
     },
 });
 

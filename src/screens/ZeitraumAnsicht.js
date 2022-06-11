@@ -10,6 +10,7 @@ import {useIsFocused} from '@react-navigation/native';
 import CardList from '../components/CardList';
 import zeitraeume from '../data/Zeitraeume';
 import {getCompleteData} from '../backend/DataProcessing';
+import NeuerEintragButton from '../components/NeuerEintragButton';
 
 const ZeitraumAnsicht = ({route, navigation}) => {
     const [counter, setCounter] = useState(0)
@@ -61,21 +62,8 @@ const ZeitraumAnsicht = ({route, navigation}) => {
     }
     return (
         <View style={styles.style}>
-            <View style={{marginBottom: 155}}>
                 <CardList detailScreen={'Details'} data={zeitraeume} typ={"Zeitraum"} />
-            </View>
-            <TouchableOpacity
-                activeOpacity={0.9}
-                style={styles.neuerEintragButton}
-                onPress={() =>
-                    navigation.navigate('Neuer Eintrag', {
-                        previousScreen: route.name,
-                    })
-                }>
-                <Text style={{fontSize: 45, textAlign: 'center', color: 'black'}}>
-                    +
-                </Text>
-            </TouchableOpacity>
+                <NeuerEintragButton route={route.name}></NeuerEintragButton>
         </View>
     );
 };
@@ -83,16 +71,6 @@ const ZeitraumAnsicht = ({route, navigation}) => {
 const styles = StyleSheet.create({
     style: {
         height: Dimensions.get('window').height - 50,
-    },
-    neuerEintragButton: {
-        backgroundColor: '#efebe6',
-        width: 70,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        shadowColor: '#000',
-        height: 70,
-        elevation: 5,
     },
 });
 

@@ -39,8 +39,6 @@ export const storeData = async tempAusgabe => {
     }
 };
 
-
-//TODO Brauchen wir das?
 export const mergeData = async tempAusgabe => {
     try {
         await AsyncStorage.mergeItem(
@@ -92,27 +90,3 @@ export const clearSingleValue = async tempAusgabe => {
     await AsyncStorage.removeItem(tempAusgabe.dateTime.toString());
 };
 
-export const countKategorieEintraege = () => {
-    let hausCounter = 0;
-    let reisenCounter = 0;
-    let sparenCounter = 0;
-    let freizeitCounter = 0;
-    getCompleteData().then(array => {
-        for (let j = 0; j < array.length; j++) {
-            if (array[j].kategorie == 'Haushalt') {
-                hausCounter++;
-            }
-            if (array[j].kategorie == 'Sparen') {
-                sparenCounter++;
-            }
-            if (array[j].kategorie == 'Reisen') {
-                reisenCounter++;
-            }
-            if (array[j].kategorie == 'Freizeit') {
-                freizeitCounter++;
-            }
-        }
-    });
-
-
-}
