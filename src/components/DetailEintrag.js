@@ -2,12 +2,12 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-const DetailEintrag = ({keyVal, item, typ, titel, route}) => {
+const DetailEintrag = ({key, item, typ, titel, route}) => {
     const navigation = useNavigation();
+    let date = new Date(item.datum)
     return(
         <TouchableOpacity
             activeOpacity={0.9}
-            key={keyVal}
             onPress={() =>
                 navigation.navigate('Bearbeiten', {
                     item: item,
@@ -19,7 +19,7 @@ const DetailEintrag = ({keyVal, item, typ, titel, route}) => {
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.card}>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.date}>{item.datum}</Text>
+                        <Text style={styles.date}>{date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()}</Text>
                         <Text style={styles.titel}>{item.titel}</Text>
                         <Text style={styles.sum}>{item.betrag}€</Text>
                         <Image style={styles.arrow} source={require('../../res/img/right.png')}></Image>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         margin: 5,
         textAlign: 'center',
         fontSize: 15,
-        flex: 0.4,
+        flex: 0.5,
         color: 'black',
     },
     titel: {

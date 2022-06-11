@@ -22,6 +22,13 @@ const zeitraeume = [
     },
     {
         id: 3,
+        bild: require('../../res/img/zukunft.png'),
+        titel: 'Zukünftige',
+        betrag: 0,
+        anzahl: 0,
+    },
+    {
+        id: 4,
         bild: require('../../res/img/summary.png'),
         titel: 'Gesamt',
         betag: 0,

@@ -20,8 +20,8 @@ const BearbeitenAnsicht = ({route, navigation}) => {
     let item = route.params.item;
     let titel = route.params.titel;
     let typ = route.params.typ;
-    let item_date = item.datum.split('.')
-    const [date, setDate] = React.useState(new Date(item_date[2], item_date[1]-1, item_date[0]));
+    console.log("Datum" , item.datum)
+    const [date, setDate] = React.useState(new Date(item.datum));
     const [message, setMessage] = React.useState('');
     tempAusgabe = item;
     tempAusgabe.datum = date.toLocaleDateString();
@@ -31,6 +31,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
         let currentDate = date;
         setDate(currentDate);
         tempAusgabe.datum = date.toLocaleDateString();
+        console.log("Speichern", tempAusgabe.datum)
     };
 
     const showDatepicker = () => {
@@ -73,7 +74,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
                     />
                     <TouchableOpacity onPress={showDatepicker} title="Datum auswählen">
                         <TextInput style={styles.date} editable={false}>
-                            {date.toLocaleDateString()}
+                            {date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()}
                         </TextInput>
                     </TouchableOpacity>
                 </View>

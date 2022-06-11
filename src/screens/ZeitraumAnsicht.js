@@ -24,10 +24,12 @@ const ZeitraumAnsicht = ({route, navigation}) => {
         zeitraeume[1].anzahl = 0
         zeitraeume[2].anzahl = 0
         zeitraeume[3].anzahl = 0
+        zeitraeume[4].anzahl = 0
         zeitraeume[0].betrag = 0
         zeitraeume[1].betrag = 0
         zeitraeume[2].betrag = 0
         zeitraeume[3].betrag = 0
+        zeitraeume[4].betrag = 0
         getCompleteData().then(arrayback => {
             arrayback.forEach(item => {
                 let current_date = new Date();
@@ -36,8 +38,8 @@ const ZeitraumAnsicht = ({route, navigation}) => {
                     current_date.getMonth(),
                     current_date.getDate(),
                 );
-                let item_date = item.datum.split(".")
-                let compare2 = new Date(item_date[2], item_date[1]-1, item_date[0])
+
+                let compare2 = new Date(item.datum)
                 var millisecondsPerDay = 1000 * 60 * 60 * 24;
                 var millisBetween = compare2.getTime() - compare1.getTime();
                 var days = millisBetween / millisecondsPerDay;
@@ -54,8 +56,12 @@ const ZeitraumAnsicht = ({route, navigation}) => {
                     zeitraeume[2].anzahl = zeitraeume[2].anzahl + 1;
                     zeitraeume[2].betrag = zeitraeume[2].betrag + parseInt(item.betrag);
                 }
-                zeitraeume[3].anzahl = zeitraeume[3].anzahl + 1;
-                zeitraeume[3].betrag = zeitraeume[3].betrag + parseInt(item.betrag);
+                if (days > 0) {
+                    zeitraeume[3].anzahl = zeitraeume[3].anzahl + 1;
+                    zeitraeume[3].betrag = zeitraeume[3].betrag + parseInt(item.betrag);
+                }
+                zeitraeume[4].anzahl = zeitraeume[4].anzahl + 1;
+                zeitraeume[4].betrag = zeitraeume[4].betrag + parseInt(item.betrag);
             });
             setCounter(counter+1);
             });

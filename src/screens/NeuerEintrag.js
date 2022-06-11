@@ -67,7 +67,7 @@ const NeuerEintrag = ({route, navigation}) => {
                 />
                 <TouchableOpacity onPress={showDatepicker} title="Datum auswählen">
                     <TextInput style={styles.date} editable={false}>
-                        {date.toLocaleDateString()}{' '}
+                        {date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()}{' '}
                     </TextInput>
                 </TouchableOpacity>
             </View>
