@@ -1,3 +1,6 @@
+/*
+Festgelegt Ausgabenkategorien
+ */
 let kategorien = [
     {
         id: 0,

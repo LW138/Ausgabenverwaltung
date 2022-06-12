@@ -13,6 +13,11 @@ import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import ausgaben, {setTime, storeData} from '../backend/DataProcessing';
 import kategorien from '../data/Kategorien';
 
+/*
+Screen zum Anlegen einer neuen Ausgabe. Besteht aus mehrere TextInput, einem Datepicker sowie einer Kategorieauswahl.
+Die onPress Methode des Speichern-Buttons speichert die Ausgabe dauerhaft im Handyspeicher.
+ */
+
 let tempAusgabe = new ausgaben();
 
 const NeuerEintrag = ({route, navigation}) => {
@@ -61,8 +66,9 @@ const NeuerEintrag = ({route, navigation}) => {
                     keyboardType={'numeric'}
                     style={styles.inputField}
                     onChangeText={message => {
-                        setMessage(message);
+                        setMessage(message)
                         tempAusgabe.betrag = message;
+                        console.log(message)
                     }}
                 />
                 <TouchableOpacity onPress={showDatepicker} title="Datum auswählen">

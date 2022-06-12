@@ -1,6 +1,9 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import kategorien from '../data/Kategorien';
+
+/*
+Methodensammlung zur Kommunikation mit dem Speicher
+ */
 
 export default class ausgaben {
     constructor() {
@@ -23,12 +26,20 @@ export const setTime = tempAusgabe => {
 };
 
 export const storeData = async tempAusgabe => {
-    if(tempAusgabe.betrag == null){
+    if(tempAusgabe.betrag == null ){
         tempAusgabe.betrag = '0';
     }
     if(tempAusgabe.titel == null){
         tempAusgabe.titel = "Ausgabe"
     }
+
+    let betrag_split = tempAusgabe.betrag.split('.');
+    if(betrag_split.length > 2){
+        tempAusgabe.betrag = 0
+    }else{
+        tempAusgabe.betrag = parseFloat(parseFloat(tempAusgabe.betrag).toFixed(2));
+    }
+
     try {
         await AsyncStorage.setItem(
             tempAusgabe.dateTime.toString(),

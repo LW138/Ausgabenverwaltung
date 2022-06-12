@@ -12,6 +12,13 @@ import zeitraeume from '../data/Zeitraeume';
 import {getCompleteData} from '../backend/DataProcessing';
 import NeuerEintragButton from '../components/NeuerEintragButton';
 
+
+/*
+Dieser Screen zeigt die Zeitraumauswahl, die geöffnet wird, wenn man den rechten Tab im Tabnavigator auswählt. Die gespeicherten
+Daten werden geladen, nach Zeiträumen sortiert und die Zahl der Gesamteinträge bzw eine Gesamtausgabe pro Zeitraum berechnet.
+Der Screen besteht aus einer Liste von Karten, eine für jeden Zeitraum, sowie einem "NeuerEintragButton", mit dem man eine neue
+Ausgabe anlegen kann.
+ */
 const ZeitraumAnsicht = ({route, navigation}) => {
     const [counter, setCounter] = useState(0)
     const isFocused = useIsFocused();
@@ -47,22 +54,22 @@ const ZeitraumAnsicht = ({route, navigation}) => {
                 days = Math.floor(days);
                 if (days >= -7 && days <= 0) {
                     zeitraeume[0].anzahl = zeitraeume[0].anzahl + 1;
-                    zeitraeume[0].betrag = zeitraeume[0].betrag + parseInt(item.betrag);
+                    zeitraeume[0].betrag = parseFloat((zeitraeume[0].betrag + parseFloat(item.betrag)).toFixed(2))
                 }
                 if(days >= -31 && days <=0) {
                     zeitraeume[1].anzahl = zeitraeume[1].anzahl + 1;
-                    zeitraeume[1].betrag = zeitraeume[1].betrag + parseInt(item.betrag);
+                    zeitraeume[1].betrag = parseFloat((zeitraeume[1].betrag + parseFloat(item.betrag)).toFixed(2))
                 }
                 if (days >= -365 && days <=0) {
                     zeitraeume[2].anzahl = zeitraeume[2].anzahl + 1;
-                    zeitraeume[2].betrag = zeitraeume[2].betrag + parseInt(item.betrag);
+                    zeitraeume[2].betrag = parseFloat((zeitraeume[2].betrag + parseFloat(item.betrag)).toFixed(2))
                 }
                 if (days > 0) {
                     zeitraeume[3].anzahl = zeitraeume[3].anzahl + 1;
-                    zeitraeume[3].betrag = zeitraeume[3].betrag + parseInt(item.betrag);
+                    zeitraeume[3].betrag = parseFloat((zeitraeume[3].betrag + parseFloat(item.betrag)).toFixed(2))
                 }
                 zeitraeume[4].anzahl = zeitraeume[4].anzahl + 1;
-                zeitraeume[4].betrag = zeitraeume[4].betrag + parseInt(item.betrag);
+                zeitraeume[4].betrag = parseFloat((zeitraeume[4].betrag + parseFloat(item.betrag)).toFixed(2));
             });
             setCounter(counter+1);
             });

@@ -2,6 +2,9 @@ import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+/*
+Definition des "NeuerEintragButton", der sowohl in der KategorienAnsicht als auch im ZeitraumAnsicht benutzt wird.
+ */
 const NeuerEintragButton = ({route}) => {
     const navigation = useNavigation();
     return(
@@ -25,7 +28,6 @@ const NeuerEintragButton = ({route}) => {
 
 const styles = StyleSheet.create({
     neuerEintragButton: {
-        backgroundColor: '#efebe6',
         width: 70,
         borderRadius: 5,
         justifyContent: 'center',
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         height: 70,
         elevation: 5,
-        backgroundColor: '#595959'
+        backgroundColor: '#595959',
     },
 });
 

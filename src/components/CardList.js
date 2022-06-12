@@ -6,12 +6,15 @@ import {
     Image,
     Text,
     Dimensions,
-    ScrollView,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useNavigation,} from '@react-navigation/native';
 
-const CardList = ({route, detailScreen, data, typ}) => {
+/*
+Diese Componente stellt die Kategorien oder Zeiträume als Karten in einer Liste dar.
+ */
+
+const CardList = ({detailScreen, data, typ}) => {
     const navigation = useNavigation();
 
 

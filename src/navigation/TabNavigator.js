@@ -1,8 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StackCategoryNav, StackTimespanNav} from './StackNavigator';
-import {useNavigation,} from '@react-navigation/native';
+
+/*
+Definition des Tabnavigators der App. Verweist auf die hinter den Tabs vesteckten Stacknavigatoren "KategorienStack" und "ZeitraumStack",
+die in "StackNavigator" definiert werden.
+ */
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {

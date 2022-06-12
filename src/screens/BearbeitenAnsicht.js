@@ -13,6 +13,11 @@ import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import ausgaben, {mergeData, clearSingleValue, storeData} from '../backend/DataProcessing';
 import kategorien from '../data/Kategorien';
 
+
+/*
+Wenn eine Ausgabe im DetailListScreen angeklickt wird, öffnet sich dieser Screen, mit dem sich die gespeicherten Daten
+dieses Eintrags ändern oder löschen lassen.
+ */
 let tempAusgabe = new ausgaben();
 
 const BearbeitenAnsicht = ({route, navigation}) => {
@@ -62,7 +67,7 @@ const BearbeitenAnsicht = ({route, navigation}) => {
                         }}
                     />
                     <TextInput
-                        defaultValue={item.betrag}
+                        defaultValue={item.betrag.toString()}
                         keyboardType={'numeric'}
                         style={styles.inputField}
                         onChangeText={message => {

@@ -1,3 +1,7 @@
+/*
+Die festgelegten Zeitraumkategorien
+ */
+
 const zeitraeume = [
     {
         id: 0,

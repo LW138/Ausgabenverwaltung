@@ -1,20 +1,18 @@
 import React, {useEffect} from 'react';
 import {
-    TouchableOpacity,
     ScrollView,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    Image
 } from 'react-native';
-
-import {useNavigation,  useIsFocused} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {getCompleteData} from '../backend/DataProcessing';
 import DetailEintrag from '../components/DetailEintrag';
+
+/*
+Beim klicken auf eine Kategorie oder ein Zeitraum öffnet sich dieser Screen, der eine Liste aller zu dieser Kategorien oder
+Zeitraum gehörenden Einträge zeigt. Jeder Eintrag erscheint als eine eigene Instanz der Komponente "DetailEintrag"
+ */
+
 const DetailListScreen = ({route}) => {
     const [data, setData] = React.useState([]);
-    const navigation = useNavigation();
     const isFocused = useIsFocused();
 
     useEffect(() => {

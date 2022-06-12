@@ -2,6 +2,10 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+
+/*
+    Definition der einzelnen Einträge im DetailListScreen
+ */
 const DetailEintrag = ({id, item, typ, titel, route}) => {
     const navigation = useNavigation();
     let date = new Date(item.datum)
